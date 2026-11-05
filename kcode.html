@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>K-code学習　ワークシート作成ツール</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header">
+    <h1>K-code学習　ワークシート作成ツール</h1>
+
+    <div class="controls">
+        <button id="usageButton" type="button" aria-haspopup="dialog" aria-controls="usageDialog">使い方</button>
+        <select id="methodSelect">
+            <option value="a_code">アルファベット法</option>
+            <option value="t_code">TPR法</option>
+        </select>
+
+        <input type="text" id="kanjiInput" placeholder="文字を入力">
+        <button id="convertButton" type="button">作成</button>
+        <button id="pdfButton" type="button">Download</button>
+    </div>
+    </header>
+
+    <hr>
+
+    <div id="result"></div>
+
+    <dialog id="usageDialog" aria-labelledby="usageTitle">
+        <div class="usage-heading">
+            <h2 id="usageTitle">使い方</h2>
+            <form method="dialog">
+                <button class="usage-close" type="submit" aria-label="閉じる" title="閉じる" autofocus>&times;</button>
+            </form>
+        </div>
+        <div class="usage-content">
+            <figure id="usageImages" class="usage-images">
+                <img src="usage-guide.png" alt="操作手順の図：①表現方法を選択、②文字を入力、③作成、④Download" width="2394" height="588">
+            </figure>
+            <section>
+                <h3 class="usage-step-1">①　K-codeの表現方法を選びます</h3>
+                <p>「TPR法」または「アルファベット法」を選択してください。</p>
+            </section>
+            <section>
+                <h3 class="usage-step-2">②　学習したい文字を入力します</h3>
+                <p>カタカナや漢字を入力してください。ひらがなは、自動的にカタカナに変換されます。</p>
+            </section>
+            <section>
+                <h3 class="usage-step-3">③　「作成」ボタンを押します</h3>
+                <p>入力した文字のワークシートが表示されます。文字や表現方法を変更した場合は、もう一度「作成」を押してください。</p>
+                <p class="usage-note">※対応していない文字は、ワークシートの上に赤文字で表示されます。その文字の練習欄は作成されず、印刷・PDFにも含まれません。</p>
+            </section>
+            <section>
+                <h3 class="usage-step-4">④　「Download」ボタンを押します</h3>
+                <p>印刷画面が開きます。PDFとして保存する場合は、出力先で「PDFに保存」などを選択してください。そのまま印刷することもできます。</p>
+            </section>
+        </div>
+    </dialog>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

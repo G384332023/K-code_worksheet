@@ -1,0 +1,823 @@
+/* 画面全体：クリーム色の背景と余白を設定し、内容を中央に並べます。 */
+body{
+    font-family:sans-serif;
+    margin:0;
+    padding:30px;
+    padding-top:0;
+    color:#222;
+    background:#f5e8c8;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    box-sizing:border-box;
+}
+
+/* 題名と操作欄を一緒に上部へ固定します。題名が折り返しても操作欄はその下に並びます。 */
+.app-header{
+    /* 上に12pxの余白を足して、題名と操作欄をまとめて下げます。 */
+    padding-top:12px;
+    position:sticky;
+    top:0;
+    z-index:11;
+    width:calc(100% + 60px);
+    flex-shrink:0;
+    background:#f5e8c8;
+}
+
+/* 画面の題名：教科書体の太字で中央に表示します。 */
+h1{
+    /* 題名を游教科書体で表示し、未導入の場合は代替フォントを使います。 */
+    font-family:"游教科書体", "YuKyokasho", "Yu Kyokasho", "YuKyokasho Yoko", serif;
+    font-weight:700;
+    font-size:36px;
+    line-height:1.4;
+    overflow-wrap:anywhere;
+    box-sizing:border-box;
+    width:100%;
+    margin:0;
+    padding:16px 30px 8px;
+    text-align:center;
+    background:rgba(245, 232, 200, .94);
+}
+
+/* appクラスの領域：横幅の上限を720pxにします。 */
+.app{
+    max-width:720px;
+}
+
+/* 操作欄：題名の下に間隔を確保して並べます。入りきらない場合は折り返します。 */
+.controls{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex-wrap:wrap;
+    justify-content:center;
+    width:100%;
+    box-sizing:border-box;
+    padding:10px 30px 16px;
+    margin-bottom:0;
+    background:rgba(245, 232, 200, .94);
+    /* 用紙プレビューとの境目を、黒寄りのグレーの線で示します。 */
+    border-bottom:2px solid #555;
+    backdrop-filter:blur(8px);
+}
+
+/* 使い方をリンク風の文字で表示します。クリックすると説明を開きます。 */
+#usageButton{
+    position:relative;
+    left:-138px;
+    padding:8px 0;
+    border:0;
+    background:transparent;
+    color:#e66b00;
+    font-size:32px;
+    text-decoration:underline;
+    text-underline-offset:3px;
+}
+
+#usageButton:hover{
+    color:#0059b3;
+}
+
+/* 文字入力欄：最低幅、内側の余白、文字の大きさを設定します。 */
+#kanjiInput{
+    min-width:220px;
+    padding:8px 10px;
+    font-size:18px;
+}
+
+/* 方式の選択欄：内側の余白と文字の大きさを設定します。 */
+select{
+    padding:8px 10px;
+    font-size:18px;
+}
+
+/* TPR法の選択中は、プルダウンに表示する文字を中央にそろえます。 */
+#methodSelect:has(option[value="t_code"]:checked){
+    text-align:center;
+    text-align-last:center;
+}
+
+/* ボタン共通：内側の余白と文字サイズをそろえ、マウスポインターを指の形にします。 */
+button{
+    padding:8px 16px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+/* PDF出力ボタン：オレンジ色の背景に白い太字を表示し、角を丸めます。 */
+#pdfButton{
+    color:white;
+    background:#ff7a00;
+    border:2px solid #ff7a00;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+/* 方式選択欄と作成ボタンの枠線を1pxにそろえます。 */
+#methodSelect,
+#convertButton{
+    border-width:1px;
+}
+
+/* 押せないボタン：半透明にして、操作できないことを示すポインターにします。 */
+button:disabled{
+    cursor:not-allowed;
+    opacity:.5;
+}
+
+/* 状態メッセージ：文字色を濃い灰色にします。 */
+.status{
+    color:#555;
+}
+
+/* 1文字分の練習欄：下に余白を取り、印刷時に途中で改ページされるのを避けます。 */
+.worksheet{
+    margin-bottom:6mm;
+    page-break-inside:avoid;
+}
+
+/* K-codeとJLPTの行：1行目の文字の基準線をそろえて横に並べます。 */
+.info-row{
+    /* 20mmのお手本マスを避け、なぞり書き用マスの左端に表示開始位置をそろえます。 */
+    padding-left:20mm;
+    box-sizing:border-box;
+    display:flex;
+    gap:24px;
+    align-items:baseline;
+    flex-wrap:nowrap;
+    margin-bottom:10px;
+}
+
+/* K-codeの領域：横幅を縮められるようにして、右側のJLPT表示の場所を確保します。 */
+.info-row .info-item{
+    min-width:0;
+    /* マス目の位置を変えず、K-codeだけを少し右上に寄せます。 */
+    position:relative;
+    left:1mm;
+    top:-.5mm;
+}
+
+/* JLPT表示：左の余白を自動で広げて右端に寄せ、表示の縮小と改行を防ぎます。 */
+.jlpt-level{
+    margin-left:auto;
+    flex-shrink:0;
+    white-space:nowrap;
+    font-size:14px;
+    color:#555;
+}
+
+/* 情報のラベルと値：文字の基準線をそろえて横に並べます。 */
+.info-item{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+}
+
+/* K-codeラベル：縮小や改行を防ぎ、コードが折り返しても1行目に保ちます。 */
+.info-label{
+    flex-shrink:0;
+    white-space:nowrap;
+    font-size:14px;
+    color:#555;
+}
+
+/* マス目の列：20mmのお手本と16mmの練習用マス10個を、下端をそろえて並べます。 */
+.grid-row{
+    display:grid;
+    grid-template-columns:20mm repeat(10, 16mm);
+    align-items:end;
+}
+
+/* 練習用マス：16mm四方の枠を作り、文字を中央に配置します。枠線も寸法に含めます。 */
+.box{
+    width:16mm;
+    height:16mm;
+    border:1.2pt solid #777;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-sizing:border-box;
+    font-size:30pt;
+    background:white;
+}
+
+/* マスの横の中心線：疑似要素で横向きの点線を描き、画像の前に重ねます。 */
+.box::before{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:0;
+    width:100%;
+    border-top:1px dashed #999;
+    z-index:2;
+}
+
+/* マスの縦の中心線：疑似要素で縦向きの点線を描き、画像の前に重ねます。 */
+.box::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    height:100%;
+    border-left:1px dashed #999;
+    z-index:2;
+}
+
+/* お手本のマス：練習用より大きい20mm四方にし、はみ出す画像を枠内で切り取ります。 */
+.sample-box{
+    width:20mm;
+    height:20mm;
+    font-weight:bold;
+    font-size:38pt;
+    overflow:hidden;
+}
+
+/* お手本画像：縦横比を保って115%の大きさで表示し、中心線より後ろに配置します。 */
+.sample-image{
+    width:115%;
+    height:115%;
+    object-fit:contain;
+    display:block;
+    position:relative;
+    z-index:1;
+}
+
+/* なぞり書き用のマス：通常の練習マスの大きさを保ち、画像のはみ出しを隠します。 */
+.tracing-box{
+    overflow:hidden;
+}
+
+/* 枠と十字線は薄くせず、お手本の文字・画像だけを薄く表示します。 */
+.tracing-sample{
+    /* 親マスの内側に固定し、印刷時のFlexによる画像の縮小を防ぎます。 */
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#cfcfcf;
+    print-color-adjust:exact;
+    -webkit-print-color-adjust:exact;
+}
+
+/* 画像の中心と寸法を明示し、画面と印刷で同じ位置にします。 */
+.tracing-sample .sample-image{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    max-width:none;
+    opacity:.22;
+}
+
+/* 準備済み画像は既に薄いため、画像の半透明化を解除します。 */
+.tracing-sample.tracing-prepared .sample-image{
+    opacity:1;
+}
+
+/* 小書きカタカナ：お手本となぞり文字を通常の60%にし、マスの左下に置きます。 */
+.small-kana-glyph{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:60%;
+    height:60%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.6em;
+    line-height:1;
+}
+
+/* 通常のなぞり画像の中央配置を解除し、小書き用の領域に画像を収めます。 */
+.small-kana-glyph > .sample-image,
+.tracing-sample .small-kana-glyph > .sample-image{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    transform:none;
+}
+
+/* K-codeの文字：画面上の文字サイズを24pxにします。 */
+.kcode{
+    /* コード部分だけを領域内で折り返します。 */
+    min-width:0;
+    overflow-wrap:anywhere;
+    font-size:24px;
+    /* 登録した空白の数と改行を、画面とPDFの両方で保ちます。 */
+    white-space:pre-wrap;
+}
+
+/* アルファベット法は、Iとlの形を見分けやすい等幅フォントにします。印刷時も共通です。 */
+.kcode:not(.kcode-tpr){
+    font-family:"Menlo", "Monaco", "Consolas", "Courier New", monospace;
+    font-variant-ligatures:none;
+}
+
+/* TPR法のK-codeだけ、画面上の文字サイズを少し小さくします。 */
+.kcode.kcode-tpr{
+    font-size:16px;
+    /* 日本語の途中では分割せず、登録された半角スペースの位置で折り返します。 */
+    word-break:keep-all;
+    overflow-wrap:normal;
+}
+
+/* K-codeの下線：太さを3pxにし、文字との距離を調整します。文字に重なっても下線を途切れさせません。 */
+.kcode u{
+    text-decoration-thickness:3px;
+    text-underline-offset:.12em;
+    text-decoration-skip-ink:none;
+}
+
+/* 赤色のK-code：H/hやTPR法の「よこ」に使います。 */
+.kcode-red{
+    color:#e53935;
+}
+
+/* 青色のK-code：I/iやTPR法の「たて」に使います。 */
+.kcode-blue{
+    color:#1e88e5;
+}
+
+/* 緑色のK-code：Z/zやTPR法の「ひだり」に使います。 */
+.kcode-green{
+    color:#43a047;
+}
+
+/* 黄色のK-code：N/nやTPR法の「みぎ」に使います。 */
+.kcode-yellow{
+    color:#fbc02d;
+}
+
+/* オレンジ色のK-code：V/vやTPR法の「チェック」に使います。 */
+.kcode-orange{
+    color:#fb8c00;
+}
+
+/* 紫色のK-code：L/lやTPR法の「エル」に使います。 */
+.kcode-purple{
+    color:#8e24aa;
+}
+
+/* 未登録文字のメッセージ：赤色で表示し、下に余白を取ります。 */
+.error{
+    color:red;
+    margin-bottom:16px;
+}
+
+/* 未対応文字は用紙の上にまとめ、プレビューの2列全体に表示します。 */
+.unsupported-characters{
+    grid-column:1 / -1;
+    overflow-wrap:anywhere;
+}
+
+/* 用紙プレビュー：A4用紙を58%に縮小し、2列で画面中央に並べます。gapはページ間の余白です。 */
+#result.pdf-preview{
+    --preview-scale:.58;
+    display:grid;
+    grid-template-columns:repeat(2, calc(210mm * var(--preview-scale)));
+    justify-content:center;
+    align-items:start;
+    gap:22mm 12mm;
+    width:100%;
+    /* 上部の区切り線と用紙の間を狭くします。 */
+    margin-top:4px;
+}
+
+/* プレビューの外枠：縮小後のA4用紙の寸法を確保し、隣のページと重ならないようにします。 */
+.page-frame{
+    width:calc(210mm * var(--preview-scale));
+    height:calc(297mm * var(--preview-scale));
+    position:relative;
+}
+
+/* 用紙が1枚だけの場合：2列分の領域を使い、その中央に用紙を配置します。 */
+#result.pdf-preview .page-frame:only-of-type{
+    grid-column:1 / -1;
+    justify-self:center;
+}
+
+/* 用紙の下にあった切り取り線風の装飾を非表示にします。 */
+.page-frame::after{
+    display:none;
+}
+
+/* A4用紙：210mm×297mmの白い用紙と余白を設定し、画面では縮小して影を付けます。 */
+.pdf-page{
+    width:210mm;
+    height:297mm;
+    box-sizing:border-box;
+    padding:16mm 16mm 22mm;
+    background:white;
+    box-shadow:0 12px 32px rgba(0,0,0,.16);
+    position:relative;
+    overflow:hidden;
+    transform:scale(var(--preview-scale));
+    transform-origin:top left;
+}
+
+/* ページ番号：用紙の下から7mmの位置に、中央揃えで表示します。 */
+.page-number{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:7mm;
+    text-align:center;
+    font-size:14pt;
+    color:#555;
+}
+
+/* 用紙内の題名：左揃えで表示し、下に余白を取ります。 */
+.sheet-title{
+    margin:0 0 8mm;
+    text-align:left;
+    font-size:22pt;
+    letter-spacing:0;
+}
+
+/* 1枚目の題名：文字サイズを18ptにし、最初の練習欄まで28mmの余白を取ります。 */
+.first-page .sheet-title{
+    margin-bottom:28mm;
+    font-size:18pt;
+}
+
+/* 1枚目の配置：題名の行と5文字分の行を確保し、文字数が少なくても上から同じ位置に並べます。 */
+.first-page{
+    /* 文字数にかかわらず5文字分の位置を確保し、上から配置します。 */
+    display:grid;
+    /* 各行の最小高さを内容に合わせ、複数行のK-codeが次の練習欄と重なるのを防ぎます。 */
+    grid-template-rows:max-content repeat(5, minmax(min-content, 1fr));
+}
+
+/* 1枚目の各練習欄：行の上端に配置し、下の余白をなくします。 */
+.first-page .worksheet{
+    margin-bottom:0;
+    align-self:start;
+}
+
+/* 1枚目の2文字目以降：上に追加の余白を入れず、決められた行位置に配置します。 */
+.first-page .worksheet + .worksheet{
+    margin-top:0;
+}
+
+/* お手本20mmと練習マス16mmの高さの差を詰め、K-codeを練習マスの直上に配置します。 */
+.first-page .info-row{
+    margin-bottom:-4mm;
+}
+
+/* 1枚目の下線練習欄：高さを12mmにし、マス目との間を1mmにします。 */
+.first-page .underline-practice{
+    height:12mm;
+    margin-top:1mm;
+}
+
+/* 2枚目以降の練習欄：下の余白を4mmにして、6文字分を収めます。 */
+.pdf-page:not(.first-page) .worksheet{
+    margin-bottom:4mm;
+}
+
+/* 2枚目以降も、練習マスとの高さの差4mmを詰めます。 */
+.pdf-page:not(.first-page) .info-row{
+    margin-bottom:-4mm;
+}
+
+/* 2枚目以降の下線練習欄：高さを10mmにし、マス目との間を1mmにします。 */
+.pdf-page:not(.first-page) .underline-practice{
+    height:10mm;
+    margin-top:1mm;
+}
+
+/* 下線のみの練習欄：横幅と高さを確保し、下端に文字を書くための線を引きます。 */
+.underline-practice{
+    position:relative;
+    width:176mm;
+    height:14mm;
+    margin-top:2mm;
+    border-bottom:1.5pt solid #555;
+}
+
+/* 下線練習欄のお手本：左端の下線の上に、游教科書体で表示します。フォントがない場合は候補を順に使います。 */
+.underline-sample{
+    position:absolute;
+    left:0;
+    bottom:1mm;
+    font-family:"游教科書体", "YuKyokasho", "Yu Kyokasho", "YuKyokasho Yoko", serif !important;
+    font-size:24pt;
+    line-height:1;
+}
+
+/* 下線欄のお手本の右隣に、同じ書体・サイズの薄い文字を表示します。 */
+.underline-sample.underline-tracing{
+    left:16mm;
+    opacity:.22;
+    print-color-adjust:exact;
+    -webkit-print-color-adjust:exact;
+}
+
+/* 使い方：画面の中央に開き、小さい画面では説明部分だけをスクロールします。 */
+#usageDialog{
+    box-sizing:border-box;
+    width:720px;
+    max-width:calc(100% - 32px);
+    max-height:calc(100dvh - 40px);
+    padding:0;
+    border:1px solid #aaa;
+    border-radius:8px;
+    background:#eaf7ff;
+    color:#222;
+    overflow:auto;
+}
+
+#usageDialog::backdrop{
+    background:rgba(0, 0, 0, .4);
+}
+
+/* 見出しと閉じるボタンは、説明をスクロールしても上に残します。 */
+.usage-heading{
+    position:sticky;
+    top:0;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:16px 24px;
+    background:#eaf7ff;
+    border-bottom:1px solid #ddd;
+}
+
+.usage-heading h2{
+    margin:0;
+    font-size:22px;
+}
+
+.usage-close{
+    width:36px;
+    height:36px;
+    padding:0;
+    border:0;
+    background:transparent;
+    font-size:28px;
+    line-height:1;
+}
+
+.usage-content{
+    padding:20px 24px 24px;
+    line-height:1.8;
+    overflow-wrap:anywhere;
+}
+
+.usage-content section + section{
+    margin-top:20px;
+}
+
+.usage-content h3{
+    margin:0 0 6px;
+    font-size:17px;
+}
+
+/* 説明の番号と見出しを、操作図の対応する枠・番号の色にそろえます。 */
+.usage-step-1{
+    color:#f00;
+}
+
+.usage-step-2{
+    color:#0070c0;
+}
+
+.usage-step-3{
+    color:#00b050;
+}
+
+.usage-step-4{
+    color:#7030a0;
+}
+
+.usage-content p{
+    margin:0;
+    font-size:16px;
+}
+
+.usage-content .usage-note{
+    margin-top:10px;
+    color:#b3261e;
+    font-size:14px;
+}
+
+/* 説明画像を追加した際も、ダイアログの横幅からはみ出さないようにします。 */
+.usage-images{
+    margin:0 0 24px;
+}
+
+.usage-images img{
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;
+}
+
+/* ここから印刷・PDF保存専用の設定です。画面用の指定を必要な部分だけ上書きします。 */
+@media print{
+    /* 印刷用紙：A4縦向きにし、ブラウザ側の用紙余白を0にします。 */
+    @page{
+        size:A4 portrait;
+        margin:0;
+    }
+
+    /* 印刷時の全体：画面用の余白と背景色を外し、白い用紙に縦方向で配置します。 */
+    body{
+        margin:0;
+        padding:0;
+        background:white;
+        display:block;
+    }
+
+    .app-header,
+    #usageDialog,
+    h1,
+    .controls,
+    hr,
+    /* 印刷時：画面の題名、操作欄、区切り線、エラーメッセージを非表示にします。 */
+    .error{
+        display:none;
+    }
+
+    /* 印刷する結果領域：通常の縦方向の配置にします。 */
+    #result{
+        display:block;
+    }
+
+    /* 印刷時のプレビュー領域：2列表示とページ間の余白を解除して、用紙を順に出力します。 */
+    #result.pdf-preview{
+        display:block;
+        width:auto;
+        margin:0;
+        gap:0;
+    }
+
+    /* 印刷時のページ外枠：画面用の縮小寸法を外し、各ページの後ろで改ページします。 */
+    .page-frame{
+        width:auto;
+        height:auto;
+        break-after:page;
+        page-break-after:always;
+    }
+
+    /* 印刷時の最後のページ：末尾の改ページを解除し、余分な空白ページを防ぎます。 */
+    .page-frame:last-of-type{
+        break-after:auto;
+        page-break-after:auto;
+    }
+
+    /* 印刷時：画面用の用紙区切りの点線を非表示にします。 */
+    .page-frame::after{
+        display:none;
+    }
+
+    /* 印刷時のA4用紙：実寸で出力し、画面用の縮小と影を解除します。 */
+    .pdf-page{
+        width:210mm;
+        height:297mm;
+        box-sizing:border-box;
+        padding:16mm 16mm 22mm;
+        box-shadow:none;
+        overflow:hidden;
+        transform:none;
+    }
+
+    /* 印刷時：用紙本体の疑似要素を非表示にします。 */
+    .pdf-page::after{
+        display:none;
+    }
+
+    /* 印刷時のページ番号：下から7mmの位置と14ptの文字サイズを設定します。 */
+    .page-number{
+        bottom:7mm;
+        font-size:14pt;
+    }
+
+    /* 印刷時の題名：余白と文字サイズを設定します。1枚目では専用の指定が優先されます。 */
+    .sheet-title{
+        margin:0 0 8mm;
+        font-size:22pt;
+    }
+
+    /* 1文字分の練習欄：下に余白を取り、印刷時に途中で改ページされるのを避けます。 */
+    .worksheet{
+        margin-bottom:6mm;
+    }
+
+    /* 1枚目の配置：題名の行と5文字分の行を確保し、文字数が少なくても上から同じ位置に並べます。 */
+    .first-page{
+        display:grid;
+        grid-template-rows:max-content repeat(5, minmax(min-content, 1fr));
+    }
+
+    /* 1枚目の題名：文字サイズを18ptにし、最初の練習欄まで28mmの余白を取ります。 */
+    .first-page .sheet-title{
+        margin-bottom:28mm;
+        font-size:18pt;
+    }
+
+    /* 1枚目の各練習欄：行の上端に配置し、下の余白をなくします。 */
+    .first-page .worksheet{
+        margin-bottom:0;
+        align-self:start;
+    }
+
+    /* 1枚目の2文字目以降：上に追加の余白を入れず、決められた行位置に配置します。 */
+    .first-page .worksheet + .worksheet{
+        margin-top:0;
+    }
+
+    /* 2枚目以降の練習欄：下の余白を4mmにして、6文字分を収めます。 */
+    .pdf-page:not(.first-page) .worksheet{
+        margin-bottom:4mm;
+    }
+
+    /* 印刷時も練習マスとの高さの差4mmを詰めます。 */
+    .pdf-page:not(.first-page) .info-row{
+        margin-bottom:-4mm;
+    }
+
+    /* 2枚目以降の下線練習欄：高さを10mmにし、マス目との間を1mmにします。 */
+    .pdf-page:not(.first-page) .underline-practice{
+        height:10mm;
+        margin-top:1mm;
+    }
+
+    /* 印刷時の情報行：基本の下余白を3mmにします。ページ別の1mmの指定が優先されます。 */
+    .info-row{
+        margin-bottom:3mm;
+    }
+
+    /* 印刷時のラベル：文字サイズを11ptにします。 */
+    .info-label{
+        font-size:11pt;
+    }
+
+    /* 印刷時のK-code：文字サイズを16ptにします。 */
+    .kcode{
+        font-size:16pt;
+    }
+
+    /* PDF・印刷でもTPR法だけ少し小さくします。 */
+    .kcode.kcode-tpr{
+        font-size:11pt;
+    }
+
+    /* マス目の列：20mmのお手本と16mmの練習用マス10個を、下端をそろえて並べます。 */
+    .grid-row{
+        display:grid;
+        grid-template-columns:20mm repeat(10, 16mm);
+        align-items:end;
+    }
+
+    /* 印刷時の練習用マス：16mm四方を維持し、枠線を1.5ptにします。 */
+    .box{
+        width:16mm;
+        height:16mm;
+        font-size:30pt;
+        border:1.5pt solid #555;
+    }
+
+    /* お手本のマス：練習用より大きい20mm四方にし、はみ出す画像を枠内で切り取ります。 */
+    .sample-box{
+        width:20mm;
+        height:20mm;
+        font-size:38pt;
+    }
+
+    /* なぞりマスの内寸も画面と同じにし、画像サイズの変化を防ぎます。 */
+    .tracing-box{
+        border-width:1.2pt;
+    }
+
+    /* 印刷時の横の中心線：薄い灰色の0.6ptの点線にします。 */
+    .box::before{
+        border-top:.6pt dashed #bbb;
+    }
+
+    /* 印刷時の縦の中心線：薄い灰色の0.6ptの点線にします。 */
+    .box::after{
+        border-left:.6pt dashed #bbb;
+    }
+
+    /* 下線のみの練習欄：横幅と高さを確保し、下端に文字を書くための線を引きます。 */
+    .underline-practice{
+        width:176mm;
+        height:14mm;
+        margin-top:2mm;
+        border-bottom:1.5pt solid #555;
+    }
+
+    /* 印刷時の下線欄のお手本：游教科書体と24ptの文字サイズを指定します。 */
+    .underline-sample{
+        font-family:"游教科書体", "YuKyokasho", "Yu Kyokasho", "YuKyokasho Yoko", serif !important;
+        font-size:24pt;
+    }
+}
