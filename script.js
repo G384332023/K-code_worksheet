@@ -60,7 +60,7 @@ const kcodeData = {
     },
     "シ": {
         level: "カタカナ",
-        a_code: "n n V",
+        a_code: "h h V",
         image: "手本/シ.png"
     },
     "ス": {
@@ -90,7 +90,7 @@ const kcodeData = {
     },
     "ツ": {
         level: "カタカナ",
-        a_code: "n n Z",
+        a_code: "i i Z",
         image: "手本/ツ.png"
     },
     "テ": {
@@ -230,7 +230,7 @@ const kcodeData = {
     },
     "ン": {
         level: "カタカナ",
-        a_code: "n V",
+        a_code: "h V",
         image: "手本/ン.png"
     },
 
