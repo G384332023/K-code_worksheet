@@ -2252,3 +2252,19 @@ const usageDialog = document.getElementById("usageDialog");
 if (usageButton && usageDialog) {
     usageButton.addEventListener("click", () => usageDialog.showModal());
 }
+
+// 登録データから対応文字を取り出し、指定の順序で一覧にします。
+const supportedCharacterList = document.getElementById("supportedCharacterList");
+if (supportedCharacterList) {
+    for (const level of ["N5", "N4", "カタカナ"]) {
+        const section = document.createElement("section");
+        const heading = document.createElement("h2");
+        heading.textContent = level;
+        const characters = document.createElement("p");
+        characters.textContent = Object.entries(kcodeData)
+            .filter(([, data]) => data.level === level)
+            .map(([character]) => character).join("　");
+        section.append(heading, characters);
+        supportedCharacterList.append(section);
+    }
+}

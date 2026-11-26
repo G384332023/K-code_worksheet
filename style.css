@@ -821,3 +821,68 @@ button:disabled{
         font-size:24pt;
     }
 }
+
+/* 一覧はヘッダーの下に重ね、開閉しても入力欄の位置を変えません。 */
+.supported-area{
+    position:absolute;
+    right:96px;
+    bottom:18px;
+    display:flex;
+    justify-content:flex-end;
+    box-sizing:border-box;
+}
+/* 狭い画面では一覧用の行を確保し、入力欄との重なりを防ぎます。 */
+@media screen and (max-width:1100px){
+    .controls{
+        padding-bottom:54px;
+    }
+}
+#supportedCharacters{
+    width:fit-content;
+    min-width:0;
+}
+#supportedCharacters summary{
+    width:fit-content;
+    margin-left:auto;
+    padding:8px 0;
+    cursor:pointer;
+    color:#285b80;
+    text-decoration:underline;
+    text-underline-offset:.2em;
+}
+#supportedCharacters summary:focus-visible{
+    outline:2px solid #285b80;
+    outline-offset:3px;
+}
+.supported-character-list{
+    position:absolute;
+    top:calc(100% + 18px);
+    right:0;
+    width:min(280px, calc(100vw - 32px));
+    height:440px;
+    max-height:60vh;
+    box-sizing:border-box;
+    box-shadow:0 6px 18px rgba(0,0,0,.15);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    padding:12px 16px;
+    border:1px solid #baa77c;
+    border-radius:8px;
+    background:#fffdf7;
+}
+.supported-character-list section + section{
+    margin-top:16px;
+}
+.supported-character-list h2{
+    margin:0 0 6px;
+    font-size:18px;
+}
+.supported-character-list p{
+    margin:0;
+    font-size:18px;
+    line-height:1.9;
+    overflow-wrap:anywhere;
+}
+@media print{
+    .supported-area{ display:none; }
+}
