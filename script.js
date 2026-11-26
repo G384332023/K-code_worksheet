@@ -257,7 +257,7 @@ const kcodeData = {
     },
     "五": {
         level: "N5",
-        a_code: "h I <u>hi</u> H",
+        a_code: "H I <u>HI</u> H",
         image: "手本/五.png"
     },
     "六": {
@@ -332,7 +332,7 @@ const kcodeData = {
     },
     "日": {
         level: "N5",
-        a_code: "I <u>hI</u> h h",
+        a_code: "I <u>HI</u> H H",
         image: "手本/日.png"
     },
     "年": {
@@ -342,7 +342,7 @@ const kcodeData = {
     },
     "人": {
         level: "N5",
-        a_code: "Z n",
+        a_code: "Z N",
         image: "手本/人.png"
     },
     "子": {
@@ -377,7 +377,7 @@ const kcodeData = {
     },
     "目": {
         level: "N5",
-        a_code: "I <u>hI</u> h h h",
+        a_code: "I <u>HI</u> H H H",
         image: "手本/目.png"
     },
     "耳": {
@@ -427,7 +427,7 @@ const kcodeData = {
     },
     "大": {
         level: "N5",
-        a_code: "H Z n",
+        a_code: "H Z N",
         image: "手本/大.png"
     },
     "小": {
@@ -522,12 +522,12 @@ const kcodeData = {
     },
     "林": {
         level: "N5",
-        a_code: "h I Z n H I Z N",
+        a_code: "H I Z n H I Z N",
         image: "手本/林.png"
     },
     "森": {
         level: "N5",
-        a_code: "H I Z N h I Z n H I Z N",
+        a_code: "H I Z N H I Z n H I Z N",
         image: "手本/森.png"
     },
     "花": {
@@ -542,7 +542,7 @@ const kcodeData = {
     },
     "犬": {
         level: "N5",
-        a_code: "H Z n n",
+        a_code: "H Z N n",
         image: "手本/犬.png"
     },
     "貝": {
@@ -617,7 +617,7 @@ const kcodeData = {
     },
     "時": {
         level: "N5",
-        a_code: "I <u>hI</u> h h h I H H Iw n",
+        a_code: "I <u>HI</u> H H h I H H Iw n",
         image: "手本/時.png"
     },
     "間": {
@@ -647,7 +647,7 @@ const kcodeData = {
     },
     "南": {
         level: "N5",
-        a_code: "h I I <u>Hiw</u> n z h H I",
+        a_code: "H I I <u>Hiw</u> n z h H I",
         image: "手本/南.png"
     },
     "北": {
@@ -657,17 +657,17 @@ const kcodeData = {
     },
     "車": {
         level: "N5",
-        a_code: "H i <u>Hi</u> H H H I",
+        a_code: "H I <u>HI</u> H H H I",
         image: "手本/車.png"
     },
     "電": {
         level: "N5",
-        a_code: "h z Hw i n n n n I <u>HI</u> H H Lw",
+        a_code: "H z Hw I n n n n I <u>HI</u> H H Lw",
         image: "手本/電.png"
     },
     "高": {
         level: "N5",
-        a_code: "i H I <u>hi</u> h I <u>HIw</u> I <u>hi</u> h",
+        a_code: "i H I <u>Hi</u> H I <u>HIw</u> I <u>Hi</u> H",
         image: "手本/高.png"
     },
     "安": {
@@ -692,17 +692,17 @@ const kcodeData = {
     },
     "古": {
         level: "N5",
-        a_code: "H I i <u>hi</u> h",
+        a_code: "H I I <u>HI</u> H",
         image: "手本/古.png"
     },
     "明": {
         level: "N5",
-        a_code: "I <u>hI</u> h h Z <u>hIw</u> h h",
+        a_code: "I <u>HI</u> H H Z <u>HIw</u> H H",
         image: "手本/明.png"
     },
     "暗": {
         level: "N5",
-        a_code: "I <u>hI</u> h h i h n z H I <u>hI</u> h h",
+        a_code: "I <u>HI</u> H H i h n z H I <u>HI</u> H H",
         image: "手本/暗.png"
     },
     "長": {
@@ -722,7 +722,7 @@ const kcodeData = {
     },
     "見": {
         level: "N5",
-        a_code: "I <u>hI</u> h h h Z Lw",
+        a_code: "I <u>HI</u> H H H Z Lw",
         image: "手本/見.png"
     },
     "立": {
@@ -732,7 +732,7 @@ const kcodeData = {
     },
     "入": {
         level: "N5",
-        a_code: "z N",
+        a_code: "Z N",
         image: "手本/入.png"
     },
     "出": {
@@ -864,7 +864,7 @@ const kcodeData = {
     },
     "族": {
         level: "N4",
-        a_code: "i H <u>nZw</u> Z z H z h H Z n",
+        a_code: "i H <u>nZw</u> Z z H z h H Z N",
         image: "手本/族.png"
     },
     "兄": {
@@ -879,12 +879,12 @@ const kcodeData = {
     },
     "姉": {
         level: "N4",
-        a_code: "<u>Zn</u> Z v i H i <u>hiw</u> I",
+        a_code: "<u>ZN</u> Z V i H I <u>HIw</u> I",
         image: "手本/姉.png"
     },
     "妹": {
         level: "N4",
-        a_code: "<u>Zn</u> Z v h H I Z N",
+        a_code: "<u>ZN</u> Z V h H I Z N",
         image: "手本/妹.png"
     },
     "夫": {
@@ -894,7 +894,7 @@ const kcodeData = {
     },
     "妻": {
         level: "N4",
-        a_code: "H <u>hi</u> H h I <u>ZN</u> Z H",
+        a_code: "H <u>HI</u> H H I <u>ZN</u> Z H",
         image: "手本/妻.png"
     },
     "主": {
@@ -914,7 +914,7 @@ const kcodeData = {
     },
     "王": {
         level: "N4",
-        a_code: "H I h H",
+        a_code: "H I H H",
         image: "手本/王.png"
     },
     "様": {
@@ -1134,7 +1134,7 @@ const kcodeData = {
     },
     "服": {
         level: "N4",
-        a_code: "Z <u>hIw</u> h h I <u>hzw</u> <u>hz</u> n",
+        a_code: "Z <u>HIw</u> H H I <u>Hzw</u> <u>HZ</u> N",
         image: "手本/服.png"
     },
     "洋": {
@@ -1149,22 +1149,22 @@ const kcodeData = {
     },
     "理": {
         level: "N4",
-        a_code: "H I h V I <u>HI</u> H H I h H",
+        a_code: "H I H V I <u>HI</u> H H I h H",
         image: "手本/理.png"
     },
     "飯": {
         level: "N4",
-        a_code: "Z n i <u>hi</u> h h <u>Iv</u> n H Z <u>hZ</u> N",
+        a_code: "Z n i <u>HI</u> H H <u>Iv</u> n H Z <u>hZ</u> N",
         image: "手本/飯.png"
     },
     "麦": {
         level: "N4",
-        a_code: "H I h H Z <u>nZ</u> N",
+        a_code: "H I H H Z <u>nZ</u> N",
         image: "手本/麦.png"
     },
     "油": {
         level: "N4",
-        a_code: "n n v i <u>Hi</u> I H H",
+        a_code: "n n v I <u>HI</u> I H H",
         image: "手本/油.png"
     },
     "酒": {
@@ -1174,7 +1174,7 @@ const kcodeData = {
     },
     "味": {
         level: "N4",
-        a_code: "i <u>hi</u> h h H I Z N",
+        a_code: "I <u>HI</u> H h H I Z N",
         image: "手本/味.png"
     },
     "住": {
@@ -1184,17 +1184,17 @@ const kcodeData = {
     },
     "所": {
         level: "N4",
-        a_code: "H <u>hi</u> h Z z Z h I",
+        a_code: "H <u>HI</u> H Z z Z h I",
         image: "手本/所.png"
     },
     "都": {
         level: "N4",
-        a_code: "h I H Z I <u>hI</u> h h <u>hz</u> Nw I",
+        a_code: "h I H Z I <u>HI</u> H H <u>hz</u> Nw I",
         image: "手本/都.png"
     },
     "道": {
         level: "N4",
-        a_code: "n z H z I <u>hI</u> h h h n <u>hznz</u> N",
+        a_code: "n z H z I <u>HI</u> H H H n <u>hznz</u> N",
         image: "手本/道.png"
     },
     "府": {
@@ -1204,7 +1204,7 @@ const kcodeData = {
     },
     "県": {
         level: "N4",
-        a_code: "I <u>hI</u> h h h <u>IH</u> I z n",
+        a_code: "I <u>HI</u> H H H <u>IH</u> I z n",
         image: "手本/県.png"
     },
     "京": {
@@ -1214,7 +1214,7 @@ const kcodeData = {
     },
     "市": {
         level: "N4",
-        a_code: "i H i <u>hiw</u> I",
+        a_code: "i H I <u>HIw</u> I",
         image: "手本/市.png"
     },
     "区": {
@@ -1224,7 +1224,7 @@ const kcodeData = {
     },
     "村": {
         level: "N4",
-        a_code: "h I Z n H Iw n",
+        a_code: "H I Z n H Iw n",
         image: "手本/村.png"
     },
     "番": {
@@ -1334,12 +1334,12 @@ const kcodeData = {
     },
     "鉄": {
         level: "N4",
-        a_code: "Z n h H I n z V z h H Z n",
+        a_code: "Z n h H I n z V z h H Z N",
         image: "手本/鉄.png"
     },
     "船": {
         level: "N4",
-        a_code: "z Z <u>hIw</u> n I V z N i <u>hi</u> h",
+        a_code: "z Z <u>hIw</u> n I V z N I <u>HI</u> H",
         image: "手本/船.png"
     },
     "部": {
@@ -1414,17 +1414,17 @@ const kcodeData = {
     },
     "館": {
         level: "N4",
-        a_code: "Z n i <u>hi</u> h h <u>Iv</u> n i z Hw I <u>hi</u> h <u>hi</u> h",
+        a_code: "Z n i <u>HI</u> H H <u>IH</u> n i z Hw I <u>HI</u> H <u>HI</u> H",
         image: "手本/館.png"
     },
     "映": {
         level: "N4",
-        a_code: "I <u>hI</u> h h i <u>hi</u> H Z n",
+        a_code: "I <u>HI</u> H H i <u>hi</u> H Z n",
         image: "手本/映.png"
     },
     "画": {
         level: "N4",
-        a_code: "H i <u>hi</u> I h h <u>IH</u> I",
+        a_code: "H I <u>HI</u> I H H <u>IH</u> I",
         image: "手本/画.png"
     },
     "勉": {
@@ -1439,22 +1439,22 @@ const kcodeData = {
     },
     "宿": {
         level: "N4",
-        a_code: "i z Hw Z I H z I <u>hI</u> h h",
+        a_code: "i z Hw Z I H z I <u>HI</u> H H",
         image: "手本/宿.png"
     },
     "題": {
         level: "N4",
-        a_code: "i <u>hi</u> h h H i h z N H z I <u>hI</u> h h h z n",
+        a_code: "I <u>HI</u> H H H i H z N H z I <u>HI</u> H H H z n",
         image: "手本/題.png"
     },
     "質": {
         level: "N4",
-        a_code: "z Z <u>Hi</u> z Z <u>Hi</u> I <u>hI</u> h h h z n",
+        a_code: "z Z <u>HI</u> z Z <u>HI</u> I <u>HI</u> H H H z n",
         image: "手本/質.png"
     },
     "問": {
         level: "N4",
-        a_code: "I <u>hi</u> h h i <u>hIw</u> h h i <u>hi</u> h",
+        a_code: "I <u>hi</u> h h i <u>hIw</u> h h I <u>HI</u> H",
         image: "手本/問.png"
     },
     "試": {
@@ -1514,12 +1514,12 @@ const kcodeData = {
     },
     "育": {
         level: "N4",
-        a_code: "i H <u>zV</u> n I <u>hIw</u> h h",
+        a_code: "i H <u>zV</u> n I <u>HIw</u> H H",
         image: "手本/育.png"
     },
     "研": {
         level: "N4",
-        a_code: "H Z i <u>hi</u> h h H Z I",
+        a_code: "H Z I <u>HI</u> H H H Z I",
         image: "手本/研.png"
     },
     "究": {
@@ -1569,7 +1569,7 @@ const kcodeData = {
     },
     "運": {
         level: "N4",
-        a_code: "z Hw h i <u>hi</u> h h H I n <u>hznz</u> N",
+        a_code: "z Hw H I <u>HI</u> H H H I n <u>hznz</u> N",
         image: "手本/運.png"
     },
     "動": {
@@ -1614,7 +1614,7 @@ const kcodeData = {
     },
     "真": {
         level: "N4",
-        a_code: "H i I <u>hI</u> h h h H z n",
+        a_code: "H I I <u>hI</u> H H H H z n",
         image: "手本/真.png"
     },
     "楽": {
@@ -1789,7 +1789,7 @@ const kcodeData = {
     },
     "短": {
         level: "N4",
-        a_code: "z h H Z n H i <u>Hi</u> H n z H",
+        a_code: "z h H Z n H I <u>HI</u> H n z H",
         image: "手本/短.png"
     },
     "弱": {
