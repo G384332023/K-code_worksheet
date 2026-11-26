@@ -2255,11 +2255,12 @@ if (usageButton && usageDialog) {
 
 // 登録データから対応文字を取り出し、指定の順序で一覧にします。
 const supportedCharacterList = document.getElementById("supportedCharacterList");
-if (supportedCharacterList) {
+if (supportedCharacterList && !supportedCharacterList.children.length) {
     for (const level of ["N5", "N4", "カタカナ"]) {
         const section = document.createElement("section");
         const heading = document.createElement("h2");
         heading.textContent = level;
+        heading.className = "supported-level-" + (level === "カタカナ" ? "katakana" : level.toLowerCase());
         const characters = document.createElement("p");
         characters.textContent = Object.entries(kcodeData)
             .filter(([, data]) => data.level === level)

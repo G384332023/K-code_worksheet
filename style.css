@@ -886,3 +886,13 @@ button:disabled{
 @media print{
     .supported-area{ display:none; }
 }
+
+/* 分類名の背景だけを色分けします。 */
+.supported-character-list h2{
+    width:fit-content;
+    padding:3px 10px;
+    border-radius:5px;
+}
+.supported-level-n5{ background:#dcefe2; color:#245438; }
+.supported-level-n4{ background:#dceafa; color:#254f78; }
+.supported-level-katakana{ background:#ffe7cc; color:#784719; }
