@@ -139,8 +139,8 @@ button:disabled{
 
 /* K-codeとJLPTの行：1行目の文字の基準線をそろえて横に並べます。 */
 .info-row{
-    /* 20mmのお手本マスを避け、なぞり書き用マスの左端に表示開始位置をそろえます。 */
-    padding-left:20mm;
+    /* お手本マスの左端に、K-codeの表示開始位置をそろえます。 */
+    padding-left:0;
     box-sizing:border-box;
     display:flex;
     gap:24px;
@@ -152,9 +152,9 @@ button:disabled{
 /* K-codeの領域：横幅を縮められるようにして、右側のJLPT表示の場所を確保します。 */
 .info-row .info-item{
     min-width:0;
-    /* マス目の位置を変えず、K-codeだけを少し右上に寄せます。 */
+    /* 左端をそろえたまま、K-codeを少し上に寄せます。 */
     position:relative;
-    left:1mm;
+    left:0;
     top:-.5mm;
 }
 
@@ -182,17 +182,17 @@ button:disabled{
     color:#555;
 }
 
-/* マス目の列：20mmのお手本と16mmの練習用マス10個を、下端をそろえて並べます。 */
+/* マス目の列：お手本1個と練習用8個を、すべて20mm四方で並べます。 */
 .grid-row{
     display:grid;
-    grid-template-columns:20mm repeat(10, 16mm);
+    grid-template-columns:repeat(9, 20mm);
     align-items:end;
 }
 
-/* 練習用マス：16mm四方の枠を作り、文字を中央に配置します。枠線も寸法に含めます。 */
+/* 練習用マス：お手本と同じ20mm四方にします。枠線も寸法に含めます。 */
 .box{
-    width:16mm;
-    height:16mm;
+    width:20mm;
+    height:20mm;
     border:1.2pt solid #777;
     position:relative;
     display:flex;
@@ -225,13 +225,30 @@ button:disabled{
     z-index:2;
 }
 
-/* お手本のマス：練習用より大きい20mm四方にし、はみ出す画像を枠内で切り取ります。 */
+/* お手本のマス：20mm四方で、はみ出す画像を枠内で切り取ります。 */
 .sample-box{
     width:20mm;
     height:20mm;
-    font-weight:bold;
-    font-size:38pt;
+    font-weight:300;
+    font-size:44pt;
     overflow:hidden;
+}
+
+/* K-code未登録のお手本は、画像ではなく黒い教科書体の文字で表示します。 */
+.font-sample{
+    font-family:"游教科書体", "YuKyokasho", "Yu Kyokasho", "YuKyokasho Yoko", serif;
+    /* 細めの文字を指定し、利用できない場合も合成の太字にはしません。 */
+    font-weight:100;
+    font-synthesis:none;
+    /* 細い書体がない場合も、白い輪郭線で文字の線幅を少し細く見せます。 */
+    -webkit-text-stroke:.4px #fff;
+    color:#000;
+    line-height:1;
+}
+
+/* なぞり書き用は同じ文字を薄い灰色にし、白黒で印刷できます。 */
+.tracing-sample .font-sample{
+    color:#cfcfcf;
 }
 
 /* お手本画像：縦横比を保って115%の大きさで表示し、中心線より後ろに配置します。 */
@@ -251,6 +268,9 @@ button:disabled{
 
 /* 枠と十字線は薄くせず、お手本の文字・画像だけを薄く表示します。 */
 .tracing-sample{
+    /* 文字のお手本と同じ大きさにし、なぞりやすくします。 */
+    font-size:44pt;
+    font-weight:300;
     /* 親マスの内側に固定し、印刷時のFlexによる画像の縮小を防ぎます。 */
     position:absolute;
     inset:0;
@@ -464,9 +484,9 @@ button:disabled{
     margin-top:0;
 }
 
-/* お手本20mmと練習マス16mmの高さの差を詰め、K-codeを練習マスの直上に配置します。 */
+/* すべてのマスが同じ高さになったため、以前の4mmの重ね合わせを解除します。 */
 .first-page .info-row{
-    margin-bottom:-4mm;
+    margin-bottom:0;
 }
 
 /* 1枚目の下線練習欄：高さを12mmにし、マス目との間を1mmにします。 */
@@ -480,9 +500,9 @@ button:disabled{
     margin-bottom:4mm;
 }
 
-/* 2枚目以降も、練習マスとの高さの差4mmを詰めます。 */
+/* 2枚目以降も、マスとK-codeを重ねずに配置します。 */
 .pdf-page:not(.first-page) .info-row{
-    margin-bottom:-4mm;
+    margin-bottom:0;
 }
 
 /* 2枚目以降の下線練習欄：高さを10mmにし、マス目との間を1mmにします。 */
@@ -739,9 +759,9 @@ button:disabled{
         margin-bottom:4mm;
     }
 
-    /* 印刷時も練習マスとの高さの差4mmを詰めます。 */
+    /* 印刷時も、マスとK-codeを重ねずに配置します。 */
     .pdf-page:not(.first-page) .info-row{
-        margin-bottom:-4mm;
+        margin-bottom:0;
     }
 
     /* 2枚目以降の下線練習欄：高さを10mmにし、マス目との間を1mmにします。 */
@@ -770,26 +790,26 @@ button:disabled{
         font-size:11pt;
     }
 
-    /* マス目の列：20mmのお手本と16mmの練習用マス10個を、下端をそろえて並べます。 */
+    /* 印刷時も、お手本1個と練習用8個を20mm幅で並べます。 */
     .grid-row{
         display:grid;
-        grid-template-columns:20mm repeat(10, 16mm);
+        grid-template-columns:repeat(9, 20mm);
         align-items:end;
     }
 
-    /* 印刷時の練習用マス：16mm四方を維持し、枠線を1.5ptにします。 */
+    /* 印刷時の練習用マス：20mm四方を維持し、枠線を1.5ptにします。 */
     .box{
-        width:16mm;
-        height:16mm;
+        width:20mm;
+        height:20mm;
         font-size:30pt;
         border:1.5pt solid #555;
     }
 
-    /* お手本のマス：練習用より大きい20mm四方にし、はみ出す画像を枠内で切り取ります。 */
+    /* 印刷時のお手本も20mm四方にします。 */
     .sample-box{
         width:20mm;
         height:20mm;
-        font-size:38pt;
+        font-size:44pt;
     }
 
     /* なぞりマスの内寸も画面と同じにし、画像サイズの変化を防ぎます。 */

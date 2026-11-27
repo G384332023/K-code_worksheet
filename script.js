@@ -1864,8 +1864,8 @@ const pdfButton = document.getElementById("pdfButton");
 // アルファベット法かTPR法を選ぶ欄を取得します。
 const methodSelect = document.getElementById("methodSelect");
 
-// 1文字につき、練習用の空白マスを10個作る設定です。
-const practiceBoxCount = 10;
+// 1文字につき、なぞり書き1個と空白7個の練習用マスを作ります。
+const practiceBoxCount = 8;
 
 // 1枚目に入れる文字数です。
 const firstPageWorksheets = 5;
@@ -2088,8 +2088,8 @@ function convert() {
     // 選ばれている方式を取得します。何もなければアルファベット法にします。
     const selectedMethod = methodSelect ? methodSelect.value : "a_code";
 
-    // ひらがなをカタカナに直してから、対応する文字データを探します。
-    const chars = Array.from(hiraganaToKatakana(input.value.trim()));
+    // 元の文字種も確認できるように、ひらがなの変換は1文字ずつ行います。
+    const chars = Array.from(input.value.trim().normalize("NFC"));
     // 未対応文字はページを作らず、プレビュー上部のメッセージにまとめます。
     const unsupportedChars = [];
 
@@ -2103,12 +2103,17 @@ function convert() {
     let worksheetCountOnPage = 0;
 
     // 入力された文字を1文字ずつ処理します。
-    chars.forEach((char) => {
+    chars.forEach((originalChar) => {
+        const char = hiraganaToKatakana(originalChar);
         const baseChar = smallKanaBases[char] || char;
         const isSmallKana = baseChar !== char;
-        // 未対応文字は練習欄の数に含めず、印刷用ページにも追加しません。
-        if (!Object.hasOwn(kcodeData, baseChar)) {
-            unsupportedChars.push(char);
+        const hasRegisteredCode = Object.hasOwn(kcodeData, baseChar)
+            && Boolean(kcodeData[baseChar].a_code?.trim());
+        // 未登録の文字も教科書体で練習できます。ただし、ひらがな・ローマ字・数字・記号は除きます。
+        const canUseFontSample = /^\p{L}$/u.test(originalChar)
+            && !/[\p{Lm}\p{Script=Hiragana}\p{Script=Latin}]/u.test(originalChar);
+        if (!hasRegisteredCode && !canUseFontSample) {
+            unsupportedChars.push(originalChar);
             return;
         }
 
@@ -2127,10 +2132,9 @@ function convert() {
             page = createPage(pageNumber);
         }
 
-        // 入力された文字のデータが登録されている場合の処理です。
-        if (kcodeData[baseChar]) {
-            // その文字に対応するデータを取り出します。
-            const data = kcodeData[baseChar];
+        // 未登録の文字は、K-codeやレベルを補わずに練習欄だけを作ります。
+        if (hasRegisteredCode || canUseFontSample) {
+            const data = hasRegisteredCode ? kcodeData[baseChar] : {};
 
             // アルファベット法だけを登録し、TPR法を選んだときに自動変換します。
             const alphabetCode = data.a_code ?? "";
@@ -2139,16 +2143,16 @@ function convert() {
             // K-codeの記号を色分けしたHTMLに変換します。
             const coloredCode = colorizeKcode(selectedCode);
 
-            // お手本画像がある場合は画像を表示し、ない場合は文字そのものを表示します。
+            // K-code未登録の場合はカラー画像を使わず、黒い教科書体の文字を表示します。
             const sampleGlyph = data.image
                 ? `<img class="sample-image" src="${data.image}" alt="${char}のお手本">`
-                : baseChar;
+                : `<span class="font-sample">${baseChar}</span>`;
             // 小書き文字だけ、小さくしたお手本をマスの左下に配置します。
             const sampleContent = isSmallKana
                 ? `<span class="small-kana-glyph">${sampleGlyph}</span>`
                 : sampleGlyph;
 
-            // 練習用10マスのうち、お手本のすぐ隣だけ薄いお手本を入れます。
+            // 練習用8マスのうち、お手本のすぐ隣だけ薄いお手本を入れます。
             const practiceBoxes = Array.from({ length: practiceBoxCount }, (_, index) => {
                 return index === 0
                     ? `<div class="box tracing-box"><span class="tracing-sample">${sampleContent}</span></div>`
@@ -2159,11 +2163,16 @@ function convert() {
             page.insertAdjacentHTML("beforeend", `
                 <div class="worksheet">
                     <div class="info-row">
+                        ${hasRegisteredCode ? `
                         <div class="info-item">
                             <span class="info-label">K-code</span>
                             <span class="kcode${selectedMethod === "t_code" ? " kcode-tpr" : ""}">${coloredCode}</span>
                         </div>
                         <span class="jlpt-level">JLPT:${data.level}</span>
+                        ` : `<div class="info-item">
+                            <span class="info-label">K-code</span>
+                            <span class="kcode${selectedMethod === "t_code" ? " kcode-tpr" : ""}">非対応</span>
+                        </div>`}
                     </div>
 
                     <div class="grid-row">
@@ -2198,7 +2207,7 @@ function convert() {
         const message = document.createElement("section");
         message.className = "error unsupported-characters";
         message.setAttribute("role", "status");
-        message.textContent = `対応していない文字：${[...new Set(unsupportedChars)].join("，")} `;
+        message.textContent = `非対応の文字：${[...new Set(unsupportedChars)].join("，")} `;
         result.prepend(message);
     }
 
